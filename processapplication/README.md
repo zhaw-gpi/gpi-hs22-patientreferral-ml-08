@@ -1,0 +1,1 @@
+In diesem Ordner wird während dem Semester die Prozessapplikation aufgebaut, welche in der Lage ist, neue Patientenzuweisungen abzubilden.

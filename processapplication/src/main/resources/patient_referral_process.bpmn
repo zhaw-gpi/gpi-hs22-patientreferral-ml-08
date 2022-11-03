@@ -1,0 +1,1337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1rr6jw8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:collaboration id="Collaboration_1ktshka">
+    <bpmn:participant id="StrategischesProzessmodellParticipant" name="Strategisches Prozessmodell" />
+    <bpmn:participant id="PatientenzuweisungsprozessParticipant" name="Patientenzuweisungsprozess" processRef="Process_0accrpt" />
+    <bpmn:participant id="ZuweiserinParticipant" name="Zuweiser:in" />
+    <bpmn:participant id="PatientinParticipant" name="Patient:in" />
+    <bpmn:participant id="KollaborationsdiagrammParticipant" name="Kollaborationsdiagramm" />
+    <bpmn:participant id="ProzessportalParticipant" name="Prozessportal" processRef="PatientReferralProcess" />
+    <bpmn:participant id="ZuweiserinParticipant1" name="Zuweiser:in" />
+    <bpmn:participant id="InputmanagerinParticipant" name="Inputmanager:in" processRef="Process_1b3ufno" />
+    <bpmn:participant id="ArztinParticipant" name="Ärzt:in" processRef="Process_0wmln4m" />
+    <bpmn:participant id="PatientenadministratorinParticipant" name="Patientenadministrator:in" processRef="Process_05k34qi" />
+    <bpmn:participant id="ZuweiserinParticipant2" name="Zuweiser:in" />
+    <bpmn:participant id="PatientinParticipant1" name="Patient:in" />
+    <bpmn:participant id="KISParticipant" name="KIS" />
+    <bpmn:messageFlow id="ZuweisungsschreibenMessageFlow" name="Zuweisungs-schreiben" sourceRef="ZuweiserinParticipant" targetRef="ZuweisungsantragErhaltenStartEvent" />
+    <bpmn:messageFlow id="TerminVorschlagMessageFlow" name="Termin-&#10;vorschlag" sourceRef="KonsultationsterminVereinbarenTask2" targetRef="PatientinParticipant" />
+    <bpmn:messageFlow id="TerminbestatigungMessageFlow" name="Termin-bestätigung" sourceRef="PatientinParticipant" targetRef="KonsultationsterminVereinbarenTask2" />
+    <bpmn:messageFlow id="ZuweisungsinformationenInklAllfalligeAnhangeMessageFlow" name="Zuweisungs-informationen inkl. allfällige Anhänge" sourceRef="ZuweiserinParticipant1" targetRef="ZuweisungStrukturiertEingereichtStartEvent" />
+    <bpmn:messageFlow id="PostalischesZuweisungsschreibenMessageFlow" name="Postalisches Zuweisungs-schreiben" sourceRef="ZuweiserinParticipant1" targetRef="ZuweisungsschreibenErhaltenStartEvent" />
+    <bpmn:messageFlow id="ZuweisungAlsEMailMessageFlow" name="Zuweisung&#10;als E-Mail" sourceRef="ZuweiserinParticipant1" targetRef="ZuweisungsEMailErhaltenStartEvent" />
+    <bpmn:messageFlow id="ZuweisungsinformationenInklAllfalligeAnhangeMessageFlow1" name="Zuweisungs-informationen inkl. allfällige Anhänge" sourceRef="ZuweisungsinformationenStrukturiertErfassenTask1" targetRef="ZuweisungStrukturiertEingereichtStartEvent" />
+    <bpmn:messageFlow id="AufgabeMitInformationenMessageFlow" name="Aufgabe mit Informationen" sourceRef="ZuweisungsantragFormellPrufenUndErganzenTask" targetRef="ZuweisungsantragZurPrufungErhaltenStartEvent" />
+    <bpmn:messageFlow id="AntragsinformationenInklAnhangeMessageFlow" name="Antrags-informationen inkl. Anhänge" sourceRef="ZuweisungsantragFormellPrufenUndErganzenTask" targetRef="ZuweisungsantragEinsehenTask" />
+    <bpmn:messageFlow id="ErganzendeInformationenMessageFlow" name="Ergänzende Informationen" sourceRef="InformationenErganzenTask" targetRef="ZuweisungsantragFormellPrufenUndErganzenTask" />
+    <bpmn:messageFlow id="EMailMitAngabeFehlenderInformationenMessageFlow" name="E-Mail mit Angabe fehlender Informationen" sourceRef="FehlendeInformationenEinfordernTask" targetRef="ZuweiserinParticipant2" />
+    <bpmn:messageFlow id="GeforderteInformationenPerEMailOderBriefMessageFlow" name="Geforderte Informationen per E-Mail oder Brief" sourceRef="ZuweiserinParticipant2" targetRef="InformationenEingetroffenEvent" />
+    <bpmn:messageFlow id="AblehnungInklBegrundungPerEMailOderBriefMessageFlow" name="Ablehnung inkl. Begründung per E-Mail oder Brief" sourceRef="ZuweiserinUberAblehnungInformierenTask" targetRef="ZuweiserinParticipant2" />
+    <bpmn:messageFlow id="GenehmigungMessageFlow" name="Genehmigung" sourceRef="ZuweisungsantragFormellGenehmigenTask" targetRef="ZuweisungsantragFormellPrufenUndErganzenTask" />
+    <bpmn:messageFlow id="AblehnungInklBegrundungMessageFlow" name="Ablehnung inkl. Begründung" sourceRef="AntragAblehnenTask" targetRef="ZuweisungsantragFormellPrufenUndErganzenTask" />
+    <bpmn:messageFlow id="AufgabeMitInformationenMessageFlow1" name="Aufgabe mit Informationen" sourceRef="KonsultationsterminVereinbarenTask" targetRef="AuftragFurTerminvereinbarungErhaltenEvent" />
+    <bpmn:messageFlow id="TerminVorgabenMessageFlow" name="Termin-&#10;Vorgaben" sourceRef="KonsultationsterminVereinbarenTask" targetRef="TerminVorgabenEinsehenTask" />
+    <bpmn:messageFlow id="TerminanfrageZBPerTelefonMessageFlow" name="Terminanfrage z.B. per Telefon" sourceRef="TerminVereinbarenTask" targetRef="PatientinParticipant1" />
+    <bpmn:messageFlow id="TerminbestatigungMessageFlow1" name="Termin-bestätigung" sourceRef="PatientinParticipant1" targetRef="TerminVereinbarenTask" />
+    <bpmn:messageFlow id="PatientenUndFalldatenMessageFlow" name="Patienten- und Falldaten" sourceRef="PatientinFallInKISErfassenTask" targetRef="KISParticipant" />
+    <bpmn:messageFlow id="VorgesehenerBehandlungszeitraumUndArztinMessageFlow" name="Vorgesehene:r Behandlungs-zeitraum und Ärzt:in" sourceRef="KISParticipant" targetRef="TerminrelevanteInformationenAusKISLesenTask" />
+    <bpmn:messageFlow id="TriageAuftragMessageFlow" name="Triage-Auftrag" sourceRef="FallTriagierenTask" targetRef="TriageAuftragErhaltenStartEvent" />
+    <bpmn:messageFlow id="StatusErledigtMessageFlow" name="Status&#10;Erledigt" sourceRef="TriageAuftragAlsErledigtMarkierenTask" targetRef="FallTriagierenTask" />
+    <bpmn:messageFlow id="StatusErledigtMessageFlow1" name="Status&#10;Erledigt" sourceRef="TerminAuftragAlsErledigtMarkierenTask" targetRef="KonsultationsterminVereinbarenTask" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_0accrpt" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1jce4cv">
+      <bpmn:lane id="InputmanagerinLane" name="Inputmanager:in">
+        <bpmn:flowNodeRef>ZuweisungsantragErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungsinformationenStrukturiertErfassenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PatientinZugewiesenEndEvent</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="PatadministratorinLane" name="Pat.administrator:in">
+        <bpmn:flowNodeRef>ZuweisungsantragFormellPrufenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>KonsultationsterminVereinbarenTask2</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="ArztinLane2" name="Ärzt:in">
+        <bpmn:flowNodeRef>FallTriagierenTask1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="AutomatischLane2" name="Automatisch">
+        <bpmn:flowNodeRef>PatientinUndFallInSystemenErfassenAktualisierenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZustandigeTriageArztinErmittelnTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="ZuweisungsantragErhaltenStartEvent" name="Zuweisungs-antrag erhalten">
+      <bpmn:outgoing>Flow_1l792sh</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="ZuweisungsinformationenStrukturiertErfassenTask" name="Zuweisungs-informationen strukturiert erfassen">
+      <bpmn:incoming>Flow_1l792sh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ykb5ax</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1ykb5ax" sourceRef="ZuweisungsinformationenStrukturiertErfassenTask" targetRef="ZuweisungsantragFormellPrufenTask" />
+    <bpmn:sequenceFlow id="Flow_1l792sh" sourceRef="ZuweisungsantragErhaltenStartEvent" targetRef="ZuweisungsinformationenStrukturiertErfassenTask" />
+    <bpmn:task id="PatientinUndFallInSystemenErfassenAktualisierenTask" name="Patient:in und Fall in Systemen erfassen / aktualisieren">
+      <bpmn:incoming>Flow_1q0bbd4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nx25px</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="ZuweisungsantragFormellPrufenTask" name="Zuweisungs-antrag formell prüfen">
+      <bpmn:incoming>Flow_1ykb5ax</bpmn:incoming>
+      <bpmn:outgoing>Flow_1q0bbd4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1q0bbd4" sourceRef="ZuweisungsantragFormellPrufenTask" targetRef="PatientinUndFallInSystemenErfassenAktualisierenTask" />
+    <bpmn:sequenceFlow id="Flow_0nx25px" sourceRef="PatientinUndFallInSystemenErfassenAktualisierenTask" targetRef="ZustandigeTriageArztinErmittelnTask" />
+    <bpmn:task id="FallTriagierenTask1" name="Fall triagieren">
+      <bpmn:incoming>Flow_135gfv3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k0nu8q</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="PatientinZugewiesenEndEvent" name="Patient:in zugewiesen">
+      <bpmn:incoming>Flow_05iq96a</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="KonsultationsterminVereinbarenTask2" name="Konsultations-termin vereinbaren">
+      <bpmn:incoming>Flow_0k0nu8q</bpmn:incoming>
+      <bpmn:outgoing>Flow_05iq96a</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0k0nu8q" sourceRef="FallTriagierenTask1" targetRef="KonsultationsterminVereinbarenTask2" />
+    <bpmn:sequenceFlow id="Flow_05iq96a" sourceRef="KonsultationsterminVereinbarenTask2" targetRef="PatientinZugewiesenEndEvent" />
+    <bpmn:task id="ZustandigeTriageArztinErmittelnTask" name="Zuständige Triage-Ärzt:in ermitteln">
+      <bpmn:incoming>Flow_0nx25px</bpmn:incoming>
+      <bpmn:outgoing>Flow_135gfv3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_135gfv3" sourceRef="ZustandigeTriageArztinErmittelnTask" targetRef="FallTriagierenTask1" />
+  </bpmn:process>
+  <bpmn:process id="PatientReferralProcess" name="Patientenzuweisungsprozess" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0gceay3">
+      <bpmn:lane id="PatientenadministratorinLane" name="Patienten-administrator:in">
+        <bpmn:documentation>- Dieses findet aber direkt im KIS statt und wird hier nur bestätigt, dass erledigt</bpmn:documentation>
+        <bpmn:flowNodeRef>PatientinZugewiesenEndEvent1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungsantragFormellPrufenUndErganzenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>KonsultationsterminVereinbarenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="ZuweiserinInputmanagerinLane" name="Zuweiser:in / Inputmanager:in">
+        <bpmn:flowNodeRef>ZuweisungStrukturiertEingereichtStartEvent</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="AutomatischLane" name="Automatisch">
+        <bpmn:flowNodeRef>PrufungErfolgreichGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungFormellAbgelehntEndEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZustandigeTriageArztinErmittelnTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PatientinFallInKISErfassenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TerminrelevanteInformationenAusKISLesenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="ArztinLane" name="Ärzt:in">
+        <bpmn:flowNodeRef>FallTriagierenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:sequenceFlow id="Flow_0sqckpy" sourceRef="ZuweisungStrukturiertEingereichtStartEvent" targetRef="ZuweisungsantragFormellPrufenUndErganzenTask" />
+    <bpmn:sequenceFlow id="Flow_1jbrkm9" sourceRef="ZuweisungsantragFormellPrufenUndErganzenTask" targetRef="PrufungErfolgreichGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="PrufungErfolgreichGateway" targetRef="PatientinFallInKISErfassenTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${formally_approved}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0x862al" sourceRef="PatientinFallInKISErfassenTask" targetRef="ZustandigeTriageArztinErmittelnTask1" />
+    <bpmn:sequenceFlow id="Flow_1vrxdph" sourceRef="ZustandigeTriageArztinErmittelnTask1" targetRef="FallTriagierenTask" />
+    <bpmn:sequenceFlow id="Flow_10738wk" sourceRef="FallTriagierenTask" targetRef="TerminrelevanteInformationenAusKISLesenTask" />
+    <bpmn:sequenceFlow id="Flow_0ocxv4i" sourceRef="TerminrelevanteInformationenAusKISLesenTask" targetRef="KonsultationsterminVereinbarenTask" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow" name="Nein" sourceRef="PrufungErfolgreichGateway" targetRef="ZuweisungFormellAbgelehntEndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!formally_approved}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:startEvent id="ZuweisungStrukturiertEingereichtStartEvent" name="Zuweisung strukturiert eingereicht" camunda:asyncAfter="true" camunda:initiator="initiator">
+      <bpmn:documentation>Anforderungen
+===========
+Formular mit folgenden Feldern:
+- Patienteninformationen:
+  - Versichertennummer [= AHV-Nummer] (pat_insurance_number, z.B. 75688888888888)
+  - Vorname (pat_firstname) 
+  - Nachname (pat_lastname) 
+  - Geburtsdatum (pat_birthday)
+  - PLZ (pat_plz)
+  - Versicherten-Typ (pat_insurance_type) mit drei möglichen Werten:
+    - V1 - Privat versichert
+    - V2 - Halbprivat versichert
+    - V3 - Allgemein versichert
+- Fallinformationen:
+  - Zuweiser-ID (case_ref_id)
+  - Zuweisungsgrund (case_ref_reasons, kann lange Texte enthalten)
+  - Notfall? (case_is_emergency, true oder false)
+  - Gewünschtes Eintrittsdatum (case_desired_date)
+  - Zugehörige Abteilung (case_department)
+
+Beim Anlegen einer neuen Prozessinstanz soll automatisch ein Business Key generiert werden mit dem Aufbau "C_JJJJ-MM-TT_HH-MM-SS_LOGGEDINUSER", wobei beim Datum die aktuelle Uhrzeit auf dem Server übernommen werden soll.
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.
+
+Weitere Hinweise
+=============
+In der Realität könnte man hier typischerweise weitere Angaben erfassen insbesondere Dateianhänge.
+
+Und das Formular würde sinnvollerweise auch von Haus aus mit weiteren Informationen bestückt (z.B. automatisch Name, Vorname, usw. aus KIS ausgelesen).
+</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="JavaScript">var today = new Date();
+var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+var time = today.getHours() + "-" + today.getMinutes() + "-" + today.getSeconds();
+var dateTime = date+'-'+time;
+
+execution.setProcessBusinessKey("C_" + dateTime + "_" + initiator);</camunda:script>
+        </camunda:executionListener>
+        <camunda:formData>
+          <camunda:formField id="pat_insurance_number" label="Versichertennummer" type="long" />
+          <camunda:formField id="pat_firstname" label="Vorname" type="string" />
+          <camunda:formField id="pat_lastname" label="Nachname" type="string" />
+          <camunda:formField id="pat_birthday" label="Geburtsdatum" type="date" />
+          <camunda:formField id="pat_plz" label="PLZ" type="long" />
+          <camunda:formField id="pat_insurance_type" label="Versicherten-Typ" type="enum">
+            <camunda:value id="V1" name="Privat versichert" />
+            <camunda:value id="V2" name="Halbprivat versichert" />
+            <camunda:value id="V3" name="Allgemein versichert" />
+          </camunda:formField>
+          <camunda:formField id="case_ref_id" label="Zuweiser-ID" type="long" />
+          <camunda:formField id="case_ref_reasons" label="Zuweisungsgrund" type="string" />
+          <camunda:formField id="case_is_emergency" label="Notfall?" type="boolean" />
+          <camunda:formField id="case_desired_date" label="Gewünschtes Eintrittsdatum" type="date" />
+          <camunda:formField id="case_department" label="Zugehörige Abteilung" type="enum">
+            <camunda:value id="Dermatologie" name="Dermatologie" />
+            <camunda:value id="Gastroenterologie" name="Gastroenterologie" />
+            <camunda:value id="Neurologie" name="Neurologie" />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0sqckpy</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="ZuweisungFormellAbgelehntEndEvent" name="Zuweisung&#10;formell&#10;abgelehnt">
+      <bpmn:incoming>NeinSequenceFlow</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="PrufungErfolgreichGateway" name="Prüfung erfolgreich?">
+      <bpmn:incoming>Flow_1jbrkm9</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeinSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_11cxejl" sourceRef="KonsultationsterminVereinbarenTask" targetRef="PatientinZugewiesenEndEvent1" />
+    <bpmn:endEvent id="PatientinZugewiesenEndEvent1" name="Patient:in zugewiesen">
+      <bpmn:incoming>Flow_11cxejl</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="ZuweisungsantragFormellPrufenUndErganzenTask" name="Zuweisungs-antrag formell prüfen und ergänzen" camunda:asyncAfter="true" camunda:candidateGroups="patadmin">
+      <bpmn:documentation>Anforderungen
+===========
+Aufgabe soll allen Mitarbeitenden aus der Gruppe patadmin angezeigt werden.
+
+Formular mit folgenden Feldern:
+- Alle aus dem Formular im Startereignis und zusätzlich ...
+- Formell akzeptiert? (formally_approved, true oder false)
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="pat_insurance_number" label="Versichertennummer" type="long" />
+          <camunda:formField id="pat_firstname" label="Vorname" type="string" />
+          <camunda:formField id="pat_lastname" label="Nachname" type="string" />
+          <camunda:formField id="pat_birthday" label="Geburtsdatum" type="date" />
+          <camunda:formField id="pat_plz" label="PLZ" type="long" />
+          <camunda:formField id="pat_insurance_type" label="Versicherten-Typ" type="enum">
+            <camunda:value id="V1" name="Privat versichert" />
+            <camunda:value id="V2" name="Halbprivat versichert" />
+            <camunda:value id="V3" name="Allgemein versichert" />
+          </camunda:formField>
+          <camunda:formField id="case_ref_id" label="Zuweiser-ID" type="long" />
+          <camunda:formField id="case_ref_reasons" label="Zuweisungsgrund" type="string" />
+          <camunda:formField id="case_is_emergency" label="Notfall?" type="boolean" />
+          <camunda:formField id="case_desired_date" label="Gewünschtes Eintrittsdatum" type="date" />
+          <camunda:formField id="case_department" label="Zugehörige Abteilung" type="enum">
+            <camunda:value id="Dermatologie" name="Dermatologie" />
+            <camunda:value id="Gastroenterologie" name="Gastroenterologie" />
+            <camunda:value id="Neurologie" name="Neurologie" />
+          </camunda:formField>
+          <camunda:formField id="formally_approved" label="Formell akzeptiert?" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0sqckpy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jbrkm9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="FallTriagierenTask" name="Fall triagieren" camunda:asyncAfter="true" camunda:assignee="${responsible_physician}">
+      <bpmn:documentation>Anforderungen
+===========
+Aufgabe soll der zuständigen Triage-Ärtz:in zugewiesen werden.
+
+Formular mit folgenden Feldern:
+- Schreibgeschützt (alle Felder, da Resultat der Triage in KIS festgehalten wird)
+  - Fall-ID (case_id)
+  - Patienten-Nachname (pat_lastname)
+  - Patienten-Geburtsdatum (pat_birthday)
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.
+
+Weitere Hinweise
+=============
+Wie dem Prozessmodell der Ärzt:in entnommen werden kann, wird die eigentliche Triage ausserhalb des Prozessportals vorgenommen und das Ergebnis im KIS festgehalten. Die Prozessapplikation dient also "nur" zu folgenden Dingen:
+- darüber zu informieren, dass eine Triage erforderlich ist
+- über Fall-ID (sowie als Kontrolle Nachname und Geburtsdatum der Patient:in) sicherzustellen, dass der richtige Fall vom Benutzer händisch im KIS geöffnet wird
+- von der Ärzt:in bestätigen zu lassen, dass die Triage erfolgreich durchgeführt wurde (dass dies allenfalls nicht erfolgreich gelingt, wird in diesem Prototyp nicht umgesetzt)</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="case_id" label="Fall-ID" type="long">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="pat_lastname" label="Patienten-Nachname" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="pat_birthday" label="Patienten-Geburtsdatum" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1vrxdph</bpmn:incoming>
+      <bpmn:outgoing>Flow_10738wk</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="KonsultationsterminVereinbarenTask" name="Konsultations-termin vereinbaren" camunda:asyncAfter="true" camunda:candidateGroups="patadmin">
+      <bpmn:documentation>Anforderungen
+===========
+Aufgabe soll allen Mitarbeitenden aus der Gruppe patadmin angezeigt werden.
+
+Formular mit folgenden Feldern:
+- Schreibgeschützt
+  - Fall-ID (case_id)
+  - Patienten-Nachname (pat_lastname)
+  - Patienten-Geburtsdatum (pat_birthday)
+  - Frühstmögliches Datum für Termin (case_appointment_earliest)
+  - Spätmöglichstes Datum für Termin (case_appointment_latest)
+
+Wenn der Benutzer das Formular absendet, sollen allfällige Fehler, die später in der Prozessinstanz auftreten, nicht dazu führen, dass er das Formular nicht erfolgreich absenden kann.
+
+Weitere Hinweise
+=============
+Wie dem Prozessmodell der Patientenadministration entnommen werden kann, wird die eigentliche Terminvereinbarung z.B. telefonisch durchgeführt und das Ergebnis im KIS festgehalten. Die Prozessapplikation dient also "nur" zu folgenden Dingen:
+- darüber zu informieren, dass ein Termin vereinbart werden muss
+- über Fall-ID (sowie als Kontrolle Nachname und Geburtsdatum der Patient:in) sicherzustellen, dass der richtige Fall vom Benutzer händisch im KIS geöffnet wird
+- mitzugeben, in welchem Zeitraum der Termin liegen muss (steht zusätzlich auch im KIS, aber eventuell etwas versteckt)
+- von der Patientenadministration bestätigen zu lassen, dass ein Termin vereinbart wurde</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="case_id" label="Fall-ID" type="long">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="pat_lastname" label="Patienten-Nachname" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="pat_birthday" label="Patienten-Geburtsdatum" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="case_appointment_earliest" label="Frühstmögliches Datum für Termin" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="case_appointment_latest" label="Spätmöglichstes Datum für Termin" type="date">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ocxv4i</bpmn:incoming>
+      <bpmn:outgoing>Flow_11cxejl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:businessRuleTask id="ZustandigeTriageArztinErmittelnTask1" name="Zuständige Triage-Ärzt:in ermitteln" camunda:asyncAfter="true" camunda:resultVariable="responsible_physician" camunda:decisionRef="DefineResponsiblePhysician" camunda:mapDecisionResult="singleEntry">
+      <bpmn:documentation>Anforderungen
+===========
+Ermittlung über Entscheidungstabelle in DMN der zuständigen Triage-Ärzt:in als Output in Prozessvariable responsible_physician basierend auf Input der Prozessvariablen Notfall, zugehörige Abteilung und Versicherungstyp mit folgenden Regeln:
+- Alle Notfälle gehen an die Ärzt:in emer
+- Alle Nicht-Notfälle der Abteilung Dermatologie und Neurologie gehen an die Ärzt:in dene
+- Privatversicherte Nicht-Notfälle der Abteilung Gastroenterologie gehen an die Ärzt:in gapr
+- Nicht-Privatversicherte Nicht-Notfälle der Abteilung Gastroenterologie gehen an die Ärzt:in gaen
+
+Weitere Hinweise
+=============
+Zugegebenermassen ist hier die Nutzung von DMN etwas gesucht, aber denkbar. In der Realität würde man es aber entweder deutlich simpler lösen (unpersönliche Postfächer statt Einzelbenutzer) oder deutlich komplexer, da z.B. eine Ärzt:in in den Ferien sein kann und dann eine Stellvertretung hinterlegt sein müsste, usw. Hinzu kommt, dass ein Spital natürlich deutlich mehr als bloss drei Abteilungen hat...</bpmn:documentation>
+      <bpmn:incoming>Flow_0x862al</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vrxdph</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="PatientinFallInKISErfassenTask" name="Patient:in &#38; Fall in KIS erfassen" camunda:delegateExpression="${CreatePatientAndMedicalCaseAdapter}">
+      <bpmn:documentation>Anforderungen
+===========
+Die bisher erfassten Informationen zu Patient und Fall sollen ins KIS übertragen werden. Konkret sind folgende Schritte erforderlich:
+- Prüfen, ob die Patient:in bereits im KIS erfasst ist anhand Versichertennummer.
+  - Falls nicht vorhanden: neu anlegen mit den Attributen Versichertennummer, Versicherungstyp, Vorname, Nachname, Geburtsdatum und PLZ
+  - Falls vorhanden: Sofern erforderlich, Attribute aktualisieren (z.B. PLZ)
+- Einen neuen Fall anlegen im KIS mit den Attributen  Zuweisungsgrund, Zuweiser-ID, Ist-Notfall, gewünschtes Eintrittsdatum und zugehörige Abteilung sowie diesen Fall mit der Patient:in verknüpfen.
+- Die vom REST-Service des KIS erhaltene Fall-ID in der Prozessvariable case_id persistieren.
+
+Die Implementierung soll über Delegate Expression mit einem JavaDelegate laufen.
+
+Weitere Hinweise
+=============
+In der Realität wäre hier ganz vieles deutlich umfangreicher und komplexer, z.B. es könnte sich um eine weitere Zuweisung zum gleichen Fall handeln, jemand könnte keine Versichertennummer haben, jemand weist sich selber zu, das Schreiben ins KIS schlägt aus zig Gründen fehl, usw.</bpmn:documentation>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x862al</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="TerminrelevanteInformationenAusKISLesenTask" name="Terminrelevante Informationen aus KIS lesen" camunda:delegateExpression="${GetAppointmentDateRangeAdapter}">
+      <bpmn:documentation>Anforderungen
+============
+Für den nachfolgenden Task sollen folgende Informationen aus dem KIS in Prozessvariablen (Bezeichnung in Klammern) extrahiert werden:
+- Patienten-Nachname (pat_lastname)
+- Patienten-Geburtsdatum (pat_birthday)
+- Frühstmögliches Datum für Termin (case_appointment_earliest)
+- Spätmöglichstes Datum für Termin (case_appointment_latest)
+
+
+Weitere Hinweise
+=============
+Diese Anforderung soll nicht in der Prozessapplikation selbst realisiert werden, sondern über einen entsprechend gestalteten Microservice, der als External Task Client auf Aufgaben des Topics GetAppointmentInformation abonniert.</bpmn:documentation>
+      <bpmn:incoming>Flow_10738wk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ocxv4i</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:process id="Process_1b3ufno" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1xy3j9e">
+      <bpmn:lane id="SonstigesLane" name="Sonstiges">
+        <bpmn:flowNodeRef>ZuweisungsschreibenErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungsschreibenAlsPDFEinscannenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungsEMailErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AllfalligeAnhangeHerunterladenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0ucgevy</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="ProzessportalLane" name="Prozessportal">
+        <bpmn:flowNodeRef>ZuweisungsinformationenStrukturiertErfassenTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungErfasstEndEvent</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="ZuweisungsschreibenErhaltenStartEvent" name="Zuweisungs-schreiben erhalten">
+      <bpmn:outgoing>Flow_0h0vhpg</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0dfc2vx" />
+    </bpmn:startEvent>
+    <bpmn:task id="ZuweisungsschreibenAlsPDFEinscannenTask" name="Zuweisungs-schreiben als PDF einscannen">
+      <bpmn:incoming>Flow_0h0vhpg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fu4fwg</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0h0vhpg" sourceRef="ZuweisungsschreibenErhaltenStartEvent" targetRef="ZuweisungsschreibenAlsPDFEinscannenTask" />
+    <bpmn:startEvent id="ZuweisungsEMailErhaltenStartEvent" name="Zuweisungs-&#10;E-Mail erhalten">
+      <bpmn:outgoing>Flow_0hxl8ib</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0jx7u6y" />
+    </bpmn:startEvent>
+    <bpmn:task id="AllfalligeAnhangeHerunterladenTask" name="Allfällige Anhänge herunterladen">
+      <bpmn:incoming>Flow_0hxl8ib</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fgd3k5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0hxl8ib" sourceRef="ZuweisungsEMailErhaltenStartEvent" targetRef="AllfalligeAnhangeHerunterladenTask" />
+    <bpmn:exclusiveGateway id="Gateway_0ucgevy">
+      <bpmn:incoming>Flow_0fu4fwg</bpmn:incoming>
+      <bpmn:incoming>Flow_0fgd3k5</bpmn:incoming>
+      <bpmn:outgoing>Flow_04kh0m1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0fu4fwg" sourceRef="ZuweisungsschreibenAlsPDFEinscannenTask" targetRef="Gateway_0ucgevy" />
+    <bpmn:sequenceFlow id="Flow_0fgd3k5" sourceRef="AllfalligeAnhangeHerunterladenTask" targetRef="Gateway_0ucgevy" />
+    <bpmn:sequenceFlow id="Flow_04kh0m1" sourceRef="Gateway_0ucgevy" targetRef="ZuweisungsinformationenStrukturiertErfassenTask1" />
+    <bpmn:task id="ZuweisungsinformationenStrukturiertErfassenTask1" name="Zuweisungs-informationen strukturiert erfassen">
+      <bpmn:incoming>Flow_04kh0m1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1v7cn2h</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="ZuweisungErfasstEndEvent" name="Zuweisung&#10;erfasst">
+      <bpmn:incoming>Flow_1v7cn2h</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1v7cn2h" sourceRef="ZuweisungsinformationenStrukturiertErfassenTask1" targetRef="ZuweisungErfasstEndEvent" />
+  </bpmn:process>
+  <bpmn:process id="Process_0wmln4m" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_03boj6i">
+      <bpmn:lane id="SonstigesLane1" name="Sonstiges">
+        <bpmn:flowNodeRef>TriageAuftragErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TriageDurchfuhrenSubProcess</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="ProzessportalLane1" name="Prozessportal">
+        <bpmn:flowNodeRef>TriageAuftragAlsErledigtMarkierenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TriageAuftragErledigtEndEvent</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:task id="TriageAuftragAlsErledigtMarkierenTask" name="Triage-Auftrag als Erledigt markieren">
+      <bpmn:incoming>Flow_0ytqy2v</bpmn:incoming>
+      <bpmn:outgoing>Flow_01sesc9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="TriageAuftragErledigtEndEvent" name="Triage-Auftrag erledigt">
+      <bpmn:incoming>Flow_01sesc9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="TriageAuftragErhaltenStartEvent" name="Triage-Auftrag erhalten">
+      <bpmn:outgoing>Flow_01qnjuh</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0fzbdz2" />
+    </bpmn:startEvent>
+    <bpmn:subProcess id="TriageDurchfuhrenSubProcess" name="Triage durchführen">
+      <bpmn:incoming>Flow_01qnjuh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ytqy2v</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_0ytqy2v" sourceRef="TriageDurchfuhrenSubProcess" targetRef="TriageAuftragAlsErledigtMarkierenTask" />
+    <bpmn:sequenceFlow id="Flow_01sesc9" sourceRef="TriageAuftragAlsErledigtMarkierenTask" targetRef="TriageAuftragErledigtEndEvent" />
+    <bpmn:sequenceFlow id="Flow_01qnjuh" sourceRef="TriageAuftragErhaltenStartEvent" targetRef="TriageDurchfuhrenSubProcess" />
+  </bpmn:process>
+  <bpmn:process id="Process_05k34qi" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_0uf36l4">
+      <bpmn:lane id="SonstigesLane2" name="Sonstiges">
+        <bpmn:flowNodeRef>TerminVereinbarenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AuftragFurTerminvereinbarungErhaltenEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweiserinUberAblehnungInformierenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FehlendeInformationenEinfordernTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InformationenEingetroffenEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InformationenVollstandigGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0727mmc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungsantragZurPrufungErhaltenStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TerminInKISFesthaltenTask</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="ProzessportalLane2" name="Prozessportal">
+        <bpmn:flowNodeRef>ZuweisungsantragEinsehenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InformationenErganzenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungGrundsatzlichMoglichGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungsantragFormellGenehmigenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>AntragAblehnenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ZuweisungFormellAbgelehntEndEvent1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TerminVorgabenEinsehenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TerminAuftragAlsErledigtMarkierenTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>PatientinZugewiesenEndEvent2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:sequenceFlow id="Flow_1vztnd6" sourceRef="ZuweisungsantragZurPrufungErhaltenStartEvent" targetRef="Gateway_0727mmc" />
+    <bpmn:sequenceFlow id="Flow_0aep6xq" sourceRef="Gateway_0727mmc" targetRef="ZuweisungsantragEinsehenTask" />
+    <bpmn:sequenceFlow id="Flow_0beafpx" sourceRef="InformationenErganzenTask" targetRef="Gateway_0727mmc" />
+    <bpmn:sequenceFlow id="Flow_0j8uqxk" sourceRef="ZuweisungsantragEinsehenTask" targetRef="InformationenVollstandigGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="InformationenVollstandigGateway" targetRef="ZuweisungGrundsatzlichMoglichGateway" />
+    <bpmn:sequenceFlow id="Flow_1k5tbev" sourceRef="InformationenEingetroffenEvent" targetRef="InformationenErganzenTask" />
+    <bpmn:sequenceFlow id="NeinSequenceFlow1" name="Nein" sourceRef="ZuweisungGrundsatzlichMoglichGateway" targetRef="ZuweiserinUberAblehnungInformierenTask" />
+    <bpmn:sequenceFlow id="Flow_1u7yur5" sourceRef="AntragAblehnenTask" targetRef="ZuweisungFormellAbgelehntEndEvent1" />
+    <bpmn:sequenceFlow id="Flow_1ocx07a" sourceRef="ZuweiserinUberAblehnungInformierenTask" targetRef="AntragAblehnenTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow2" name="Ja" sourceRef="ZuweisungGrundsatzlichMoglichGateway" targetRef="ZuweisungsantragFormellGenehmigenTask" />
+    <bpmn:sequenceFlow id="Flow_0crhna8" sourceRef="ZuweisungsantragFormellGenehmigenTask" targetRef="AuftragFurTerminvereinbarungErhaltenEvent" />
+    <bpmn:sequenceFlow id="Flow_0t6jkxo" sourceRef="AuftragFurTerminvereinbarungErhaltenEvent" targetRef="TerminVorgabenEinsehenTask" />
+    <bpmn:sequenceFlow id="Flow_1idk65n" sourceRef="TerminVorgabenEinsehenTask" targetRef="TerminVereinbarenTask" />
+    <bpmn:sequenceFlow id="Flow_1d6n7x7" sourceRef="TerminVereinbarenTask" targetRef="TerminInKISFesthaltenTask" />
+    <bpmn:task id="ZuweisungsantragEinsehenTask" name="Zuweisungs-antrag einsehen">
+      <bpmn:incoming>Flow_0aep6xq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j8uqxk</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="NeinSequenceFlow2" name="Nein" sourceRef="InformationenVollstandigGateway" targetRef="FehlendeInformationenEinfordernTask" />
+    <bpmn:sequenceFlow id="Flow_1r4rgij" sourceRef="FehlendeInformationenEinfordernTask" targetRef="InformationenEingetroffenEvent" />
+    <bpmn:task id="InformationenErganzenTask" name="Informationen ergänzen">
+      <bpmn:incoming>Flow_1k5tbev</bpmn:incoming>
+      <bpmn:outgoing>Flow_0beafpx</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="ZuweisungGrundsatzlichMoglichGateway" name="Zuweisung grundsätzlich möglich?">
+      <bpmn:documentation>Z.B. aufgrund Zuständigkeit, verfügbarer Abteilungen, usw.</bpmn:documentation>
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>NeinSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="ZuweisungsantragFormellGenehmigenTask" name="Zuweisungs-antrag formell genehmigen">
+      <bpmn:incoming>JaSequenceFlow2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0crhna8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="AntragAblehnenTask" name="Antrag ablehnen">
+      <bpmn:incoming>Flow_1ocx07a</bpmn:incoming>
+      <bpmn:outgoing>Flow_1u7yur5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="ZuweisungFormellAbgelehntEndEvent1" name="Zuweisung&#10;formell&#10;abgelehnt">
+      <bpmn:incoming>Flow_1u7yur5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="TerminVorgabenEinsehenTask" name="Termin-Vorgaben einsehen">
+      <bpmn:incoming>Flow_0t6jkxo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1idk65n</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="TerminVereinbarenTask" name="Termin vereinbaren">
+      <bpmn:incoming>Flow_1idk65n</bpmn:incoming>
+      <bpmn:outgoing>Flow_1d6n7x7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:intermediateCatchEvent id="AuftragFurTerminvereinbarungErhaltenEvent" name="Auftrag für Terminverein-barung erhalten">
+      <bpmn:incoming>Flow_0crhna8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0t6jkxo</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1w3zfh7" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="ZuweiserinUberAblehnungInformierenTask" name="Zuweiser:in über Ablehnung informieren">
+      <bpmn:incoming>NeinSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ocx07a</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="FehlendeInformationenEinfordernTask" name="Fehlende Informationen einfordern">
+      <bpmn:incoming>NeinSequenceFlow2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r4rgij</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:intermediateCatchEvent id="InformationenEingetroffenEvent" name="Informationen eingetroffen">
+      <bpmn:incoming>Flow_1r4rgij</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k5tbev</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1kfdqqh" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="InformationenVollstandigGateway" name="Informationen vollständig?">
+      <bpmn:incoming>Flow_0j8uqxk</bpmn:incoming>
+      <bpmn:outgoing>NeinSequenceFlow2</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0727mmc">
+      <bpmn:incoming>Flow_1vztnd6</bpmn:incoming>
+      <bpmn:incoming>Flow_0beafpx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0aep6xq</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:startEvent id="ZuweisungsantragZurPrufungErhaltenStartEvent" name="Zuweisungs-antrag zur Prüfung erhalten">
+      <bpmn:outgoing>Flow_1vztnd6</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0lhietf" />
+    </bpmn:startEvent>
+    <bpmn:task id="TerminInKISFesthaltenTask" name="Termin in KIS festhalten">
+      <bpmn:incoming>Flow_1d6n7x7</bpmn:incoming>
+      <bpmn:outgoing>Flow_072xali</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="TerminAuftragAlsErledigtMarkierenTask" name="Termin-Auftrag als Erledigt markieren">
+      <bpmn:incoming>Flow_072xali</bpmn:incoming>
+      <bpmn:outgoing>Flow_1llffel</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_072xali" sourceRef="TerminInKISFesthaltenTask" targetRef="TerminAuftragAlsErledigtMarkierenTask" />
+    <bpmn:endEvent id="PatientinZugewiesenEndEvent2" name="Patient:in zugewiesen">
+      <bpmn:incoming>Flow_1llffel</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1llffel" sourceRef="TerminAuftragAlsErledigtMarkierenTask" targetRef="PatientinZugewiesenEndEvent2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ktshka">
+      <bpmndi:BPMNShape id="Participant_0vk0umy_di" bpmnElement="StrategischesProzessmodellParticipant" isHorizontal="true" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="510" y="80" width="1080" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1lrpw86_di" bpmnElement="PatientenzuweisungsprozessParticipant" isHorizontal="true">
+        <dc:Bounds x="510" y="260" width="1080" height="490" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_03fhkyl_di" bpmnElement="AutomatischLane2" isHorizontal="true" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="540" y="630" width="1050" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_086no4v_di" bpmnElement="ArztinLane2" isHorizontal="true" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
+        <dc:Bounds x="540" y="510" width="1050" height="120" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1pugka3_di" bpmnElement="PatadministratorinLane" isHorizontal="true" bioc:stroke="#fb8c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#fb8c00">
+        <dc:Bounds x="540" y="390" width="1050" height="120" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_03mx477_di" bpmnElement="InputmanagerinLane" isHorizontal="true" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="540" y="260" width="1050" height="130" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qzyusr_di" bpmnElement="ZuweisungsantragErhaltenStartEvent">
+        <dc:Bounds x="592" y="306" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="574" y="349" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1913tpb_di" bpmnElement="ZuweisungsinformationenStrukturiertErfassenTask">
+        <dc:Bounds x="680" y="284" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19xzvmg_di" bpmnElement="PatientinUndFallInSystemenErfassenAktualisierenTask">
+        <dc:Bounds x="960" y="650" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ukl2io_di" bpmnElement="ZuweisungsantragFormellPrufenTask">
+        <dc:Bounds x="820" y="410" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wj5uox_di" bpmnElement="FallTriagierenTask1">
+        <dc:Bounds x="1240" y="530" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_195g6z3_di" bpmnElement="PatientinZugewiesenEndEvent">
+        <dc:Bounds x="1522" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1512" y="355" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16zil2m_di" bpmnElement="KonsultationsterminVereinbarenTask2">
+        <dc:Bounds x="1380" y="410" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1c5l4cu_di" bpmnElement="ZustandigeTriageArztinErmittelnTask">
+        <dc:Bounds x="1090" y="650" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ykb5ax_di" bpmnElement="Flow_1ykb5ax">
+        <di:waypoint x="780" y="324" />
+        <di:waypoint x="800" y="324" />
+        <di:waypoint x="800" y="450" />
+        <di:waypoint x="820" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l792sh_di" bpmnElement="Flow_1l792sh">
+        <di:waypoint x="628" y="324" />
+        <di:waypoint x="680" y="324" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q0bbd4_di" bpmnElement="Flow_1q0bbd4">
+        <di:waypoint x="920" y="450" />
+        <di:waypoint x="940" y="450" />
+        <di:waypoint x="940" y="690" />
+        <di:waypoint x="960" y="690" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nx25px_di" bpmnElement="Flow_0nx25px">
+        <di:waypoint x="1060" y="690" />
+        <di:waypoint x="1090" y="690" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k0nu8q_di" bpmnElement="Flow_0k0nu8q">
+        <di:waypoint x="1340" y="570" />
+        <di:waypoint x="1360" y="570" />
+        <di:waypoint x="1360" y="450" />
+        <di:waypoint x="1380" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05iq96a_di" bpmnElement="Flow_05iq96a">
+        <di:waypoint x="1480" y="450" />
+        <di:waypoint x="1500" y="450" />
+        <di:waypoint x="1500" y="330" />
+        <di:waypoint x="1522" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_135gfv3_di" bpmnElement="Flow_135gfv3">
+        <di:waypoint x="1190" y="690" />
+        <di:waypoint x="1220" y="690" />
+        <di:waypoint x="1220" y="570" />
+        <di:waypoint x="1240" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_0nyeif8_di" bpmnElement="ZuweiserinParticipant" isHorizontal="true">
+        <dc:Bounds x="510" y="160" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0aocjj6" bpmnElement="PatientinParticipant" isHorizontal="true">
+        <dc:Bounds x="1290" y="790" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1xuy924_di" bpmnElement="KollaborationsdiagrammParticipant" isHorizontal="true" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="510" y="950" width="1630" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0e85bf5_di" bpmnElement="ProzessportalParticipant" isHorizontal="true">
+        <dc:Bounds x="510" y="1462" width="1630" height="628" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0137v14_di" bpmnElement="ArztinLane" isHorizontal="true" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
+        <dc:Bounds x="540" y="1590" width="1600" height="120" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_16w2ud0_di" bpmnElement="AutomatischLane" isHorizontal="true">
+        <dc:Bounds x="540" y="1710" width="1600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_16pxxxj_di" bpmnElement="ZuweiserinInputmanagerinLane" isHorizontal="true" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="540" y="1462" width="1600" height="128" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1szar6v_di" bpmnElement="PatientenadministratorinLane" isHorizontal="true" bioc:stroke="#fb8c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#fb8c00">
+        <dc:Bounds x="540" y="1960" width="1600" height="130" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17i1bj4_di" bpmnElement="ZuweisungStrukturiertEingereichtStartEvent">
+        <dc:Bounds x="602" y="1492" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="592" y="1538" width="55" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_04psi41_di" bpmnElement="ZuweisungFormellAbgelehntEndEvent">
+        <dc:Bounds x="1012" y="1862" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1004" y="1905" width="53" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0hgn5kp_di" bpmnElement="PrufungErfolgreichGateway" isMarkerVisible="true">
+        <dc:Bounds x="925" y="1755" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="921" y="1718" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0578i3f_di" bpmnElement="PatientinZugewiesenEndEvent1">
+        <dc:Bounds x="1872" y="2002" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1861" y="2045" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ebeq3n_di" bpmnElement="ZuweisungsantragFormellPrufenUndErganzenTask">
+        <dc:Bounds x="730" y="1980" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xkyu0y_di" bpmnElement="FallTriagierenTask">
+        <dc:Bounds x="1360" y="1610" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tyaikd_di" bpmnElement="KonsultationsterminVereinbarenTask">
+        <dc:Bounds x="1720" y="1980" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0iffi6m_di" bpmnElement="ZustandigeTriageArztinErmittelnTask1">
+        <dc:Bounds x="1180" y="1740" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1fcrkdy_di" bpmnElement="PatientinFallInKISErfassenTask">
+        <dc:Bounds x="1030" y="1740" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02k7106_di" bpmnElement="TerminrelevanteInformationenAusKISLesenTask">
+        <dc:Bounds x="1540" y="1740" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0sqckpy_di" bpmnElement="Flow_0sqckpy">
+        <di:waypoint x="638" y="1510" />
+        <di:waypoint x="680" y="1510" />
+        <di:waypoint x="680" y="2020" />
+        <di:waypoint x="730" y="2020" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jbrkm9_di" bpmnElement="Flow_1jbrkm9">
+        <di:waypoint x="830" y="2020" />
+        <di:waypoint x="880" y="2020" />
+        <di:waypoint x="880" y="1780" />
+        <di:waypoint x="925" y="1780" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u3qmc3_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="975" y="1780" />
+        <di:waypoint x="1030" y="1780" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="988" y="1763" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x862al_di" bpmnElement="Flow_0x862al">
+        <di:waypoint x="1130" y="1780" />
+        <di:waypoint x="1180" y="1780" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vrxdph_di" bpmnElement="Flow_1vrxdph">
+        <di:waypoint x="1280" y="1780" />
+        <di:waypoint x="1320" y="1780" />
+        <di:waypoint x="1320" y="1650" />
+        <di:waypoint x="1360" y="1650" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10738wk_di" bpmnElement="Flow_10738wk">
+        <di:waypoint x="1460" y="1650" />
+        <di:waypoint x="1500" y="1650" />
+        <di:waypoint x="1500" y="1780" />
+        <di:waypoint x="1540" y="1780" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ocxv4i_di" bpmnElement="Flow_0ocxv4i">
+        <di:waypoint x="1640" y="1780" />
+        <di:waypoint x="1680" y="1780" />
+        <di:waypoint x="1680" y="2020" />
+        <di:waypoint x="1720" y="2020" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l5bycp_di" bpmnElement="NeinSequenceFlow">
+        <di:waypoint x="950" y="1805" />
+        <di:waypoint x="950" y="1880" />
+        <di:waypoint x="1012" y="1880" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="954" y="1814" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11cxejl_di" bpmnElement="Flow_11cxejl">
+        <di:waypoint x="1820" y="2020" />
+        <di:waypoint x="1872" y="2020" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1xb4j26_di" bpmnElement="ZuweiserinParticipant1" isHorizontal="true">
+        <dc:Bounds x="160" y="1410" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1x026zt_di" bpmnElement="InputmanagerinParticipant" isHorizontal="true" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="510" y="1030" width="660" height="350" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0dap121_di" bpmnElement="ProzessportalLane" isHorizontal="true">
+        <dc:Bounds x="540" y="1260" width="630" height="120" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1338moq_di" bpmnElement="SonstigesLane" isHorizontal="true">
+        <dc:Bounds x="540" y="1030" width="630" height="230" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ye84og_di" bpmnElement="ZuweisungsschreibenErhaltenStartEvent">
+        <dc:Bounds x="592" y="1072" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="580" y="1110" width="62" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03rmwfb_di" bpmnElement="ZuweisungsschreibenAlsPDFEinscannenTask">
+        <dc:Bounds x="680" y="1050" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1w4r9ic_di" bpmnElement="ZuweisungsEMailErhaltenStartEvent">
+        <dc:Bounds x="592" y="1182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="574" y="1227" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10lcj9g_di" bpmnElement="AllfalligeAnhangeHerunterladenTask">
+        <dc:Bounds x="680" y="1160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ucgevy_di" bpmnElement="Gateway_0ucgevy" isMarkerVisible="true">
+        <dc:Bounds x="835" y="1065" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0luornq_di" bpmnElement="ZuweisungsinformationenStrukturiertErfassenTask1">
+        <dc:Bounds x="940" y="1280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0bwug82_di" bpmnElement="ZuweisungErfasstEndEvent">
+        <dc:Bounds x="1102" y="1302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1094" y="1345" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0h0vhpg_di" bpmnElement="Flow_0h0vhpg">
+        <di:waypoint x="628" y="1090" />
+        <di:waypoint x="680" y="1090" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hxl8ib_di" bpmnElement="Flow_0hxl8ib">
+        <di:waypoint x="628" y="1200" />
+        <di:waypoint x="680" y="1200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fu4fwg_di" bpmnElement="Flow_0fu4fwg">
+        <di:waypoint x="780" y="1090" />
+        <di:waypoint x="835" y="1090" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fgd3k5_di" bpmnElement="Flow_0fgd3k5">
+        <di:waypoint x="780" y="1200" />
+        <di:waypoint x="860" y="1200" />
+        <di:waypoint x="860" y="1115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04kh0m1_di" bpmnElement="Flow_04kh0m1">
+        <di:waypoint x="885" y="1090" />
+        <di:waypoint x="910" y="1090" />
+        <di:waypoint x="910" y="1320" />
+        <di:waypoint x="940" y="1320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v7cn2h_di" bpmnElement="Flow_1v7cn2h">
+        <di:waypoint x="1040" y="1320" />
+        <di:waypoint x="1102" y="1320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_168n1yn_di" bpmnElement="ArztinParticipant" isHorizontal="true" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
+        <dc:Bounds x="1380" y="1130" width="550" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_19dnajy_di" bpmnElement="ProzessportalLane1" isHorizontal="true">
+        <dc:Bounds x="1410" y="1260" width="520" height="120" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0miuhph_di" bpmnElement="SonstigesLane1" isHorizontal="true">
+        <dc:Bounds x="1410" y="1130" width="520" height="130" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_069py2i_di" bpmnElement="TriageAuftragAlsErledigtMarkierenTask">
+        <dc:Bounds x="1700" y="1280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jhbch1_di" bpmnElement="TriageAuftragErledigtEndEvent">
+        <dc:Bounds x="1852" y="1302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1836" y="1345" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jdycgv_di" bpmnElement="TriageAuftragErhaltenStartEvent">
+        <dc:Bounds x="1462" y="1182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1445" y="1145" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17fafcr_di" bpmnElement="TriageDurchfuhrenSubProcess">
+        <dc:Bounds x="1550" y="1160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ytqy2v_di" bpmnElement="Flow_0ytqy2v">
+        <di:waypoint x="1650" y="1200" />
+        <di:waypoint x="1680" y="1200" />
+        <di:waypoint x="1680" y="1320" />
+        <di:waypoint x="1700" y="1320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01sesc9_di" bpmnElement="Flow_01sesc9">
+        <di:waypoint x="1800" y="1320" />
+        <di:waypoint x="1852" y="1320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01qnjuh_di" bpmnElement="Flow_01qnjuh">
+        <di:waypoint x="1498" y="1200" />
+        <di:waypoint x="1550" y="1200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1ce3dzt_di" bpmnElement="PatientenadministratorinParticipant" isHorizontal="true" bioc:stroke="#fb8c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#fb8c00">
+        <dc:Bounds x="510" y="2150" width="1630" height="440" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0warf4s_di" bpmnElement="ProzessportalLane2" isHorizontal="true">
+        <dc:Bounds x="540" y="2150" width="1600" height="285" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_16e6yir_di" bpmnElement="SonstigesLane2" isHorizontal="true">
+        <dc:Bounds x="540" y="2435" width="1600" height="155" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01b350d_di" bpmnElement="ZuweisungsantragEinsehenTask">
+        <dc:Bounds x="770" y="2200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bd0nrp_di" bpmnElement="InformationenErganzenTask">
+        <dc:Bounds x="1010" y="2200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1lc6zli_di" bpmnElement="ZuweisungGrundsatzlichMoglichGateway" isMarkerVisible="true">
+        <dc:Bounds x="1195" y="2215" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1187" y="2165" width="65" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bc4c51_di" bpmnElement="ZuweisungsantragFormellGenehmigenTask">
+        <dc:Bounds x="1280" y="2200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1wbc44h_di" bpmnElement="AntragAblehnenTask">
+        <dc:Bounds x="1390" y="2310" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0g2rnzp_di" bpmnElement="ZuweisungFormellAbgelehntEndEvent1">
+        <dc:Bounds x="1532" y="2332" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1524" y="2375" width="53" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1smv3si_di" bpmnElement="TerminVorgabenEinsehenTask">
+        <dc:Bounds x="1680" y="2200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0caibor_di" bpmnElement="TerminVereinbarenTask">
+        <dc:Bounds x="1790" y="2460" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hjdfqb_di" bpmnElement="AuftragFurTerminvereinbarungErhaltenEvent">
+        <dc:Bounds x="1642" y="2482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1621" y="2525" width="78" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15dvn8t_di" bpmnElement="ZuweiserinUberAblehnungInformierenTask">
+        <dc:Bounds x="1280" y="2460" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_021y6ol_di" bpmnElement="FehlendeInformationenEinfordernTask">
+        <dc:Bounds x="890" y="2460" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0mn86aw_di" bpmnElement="InformationenEingetroffenEvent">
+        <dc:Bounds x="1042" y="2482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1076" y="2467" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1qh9xy9_di" bpmnElement="InformationenVollstandigGateway" isMarkerVisible="true">
+        <dc:Bounds x="795" y="2475" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="736" y="2525" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0727mmc_di" bpmnElement="Gateway_0727mmc" isMarkerVisible="true">
+        <dc:Bounds x="685" y="2475" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_01kimrn_di" bpmnElement="ZuweisungsantragZurPrufungErhaltenStartEvent">
+        <dc:Bounds x="602" y="2482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="579" y="2525" width="82" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0nfmxrq_di" bpmnElement="TerminInKISFesthaltenTask">
+        <dc:Bounds x="1940" y="2460" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1woxo6b_di" bpmnElement="TerminAuftragAlsErledigtMarkierenTask">
+        <dc:Bounds x="1940" y="2200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06tlzx5_di" bpmnElement="PatientinZugewiesenEndEvent2">
+        <dc:Bounds x="2072" y="2222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2061" y="2265" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1vztnd6_di" bpmnElement="Flow_1vztnd6">
+        <di:waypoint x="638" y="2500" />
+        <di:waypoint x="685" y="2500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0aep6xq_di" bpmnElement="Flow_0aep6xq">
+        <di:waypoint x="735" y="2500" />
+        <di:waypoint x="750" y="2500" />
+        <di:waypoint x="750" y="2240" />
+        <di:waypoint x="770" y="2240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0beafpx_di" bpmnElement="Flow_0beafpx">
+        <di:waypoint x="1060" y="2200" />
+        <di:waypoint x="1060" y="2180" />
+        <di:waypoint x="710" y="2180" />
+        <di:waypoint x="710" y="2475" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j8uqxk_di" bpmnElement="Flow_0j8uqxk">
+        <di:waypoint x="820" y="2280" />
+        <di:waypoint x="820" y="2475" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vuvdqi_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="820" y="2525" />
+        <di:waypoint x="820" y="2570" />
+        <di:waypoint x="1160" y="2570" />
+        <di:waypoint x="1160" y="2240" />
+        <di:waypoint x="1195" y="2240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="834" y="2532" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k5tbev_di" bpmnElement="Flow_1k5tbev">
+        <di:waypoint x="1060" y="2482" />
+        <di:waypoint x="1060" y="2280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zb6vgo_di" bpmnElement="NeinSequenceFlow1">
+        <di:waypoint x="1220" y="2265" />
+        <di:waypoint x="1220" y="2500" />
+        <di:waypoint x="1280" y="2500" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1228" y="2271" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u7yur5_di" bpmnElement="Flow_1u7yur5">
+        <di:waypoint x="1490" y="2350" />
+        <di:waypoint x="1532" y="2350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ocx07a_di" bpmnElement="Flow_1ocx07a">
+        <di:waypoint x="1380" y="2500" />
+        <di:waypoint x="1440" y="2500" />
+        <di:waypoint x="1440" y="2390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mb3l8e_di" bpmnElement="JaSequenceFlow2">
+        <di:waypoint x="1245" y="2240" />
+        <di:waypoint x="1280" y="2240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1257" y="2222" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0crhna8_di" bpmnElement="Flow_0crhna8">
+        <di:waypoint x="1380" y="2240" />
+        <di:waypoint x="1610" y="2240" />
+        <di:waypoint x="1610" y="2500" />
+        <di:waypoint x="1642" y="2500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t6jkxo_di" bpmnElement="Flow_0t6jkxo">
+        <di:waypoint x="1678" y="2500" />
+        <di:waypoint x="1730" y="2500" />
+        <di:waypoint x="1730" y="2280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1idk65n_di" bpmnElement="Flow_1idk65n">
+        <di:waypoint x="1780" y="2240" />
+        <di:waypoint x="1840" y="2240" />
+        <di:waypoint x="1840" y="2460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d6n7x7_di" bpmnElement="Flow_1d6n7x7">
+        <di:waypoint x="1890" y="2500" />
+        <di:waypoint x="1940" y="2500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uu54vy_di" bpmnElement="NeinSequenceFlow2">
+        <di:waypoint x="845" y="2500" />
+        <di:waypoint x="890" y="2500" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="857" y="2482" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r4rgij_di" bpmnElement="Flow_1r4rgij">
+        <di:waypoint x="990" y="2500" />
+        <di:waypoint x="1042" y="2500" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_072xali_di" bpmnElement="Flow_072xali">
+        <di:waypoint x="1990" y="2460" />
+        <di:waypoint x="1990" y="2280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1llffel_di" bpmnElement="Flow_1llffel">
+        <di:waypoint x="2040" y="2240" />
+        <di:waypoint x="2072" y="2240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1kvt2s1" bpmnElement="ZuweiserinParticipant2" isHorizontal="true">
+        <dc:Bounds x="850" y="2640" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_01k4nu3" bpmnElement="PatientinParticipant1" isHorizontal="true">
+        <dc:Bounds x="1690" y="2640" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0vzg329" bpmnElement="KISParticipant" isHorizontal="true">
+        <dc:Bounds x="1200" y="1030" width="940" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1scpr7d_di" bpmnElement="ZuweisungsschreibenMessageFlow">
+        <di:waypoint x="610" y="220" />
+        <di:waypoint x="610" y="306" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="619" y="226" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_115mgbd_di" bpmnElement="TerminVorschlagMessageFlow">
+        <di:waypoint x="1420" y="490" />
+        <di:waypoint x="1420" y="790" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1356" y="756" width="47" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0odt8hd_di" bpmnElement="TerminbestatigungMessageFlow">
+        <di:waypoint x="1450" y="790" />
+        <di:waypoint x="1450" y="490" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1461" y="756" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18karrt_di" bpmnElement="ZuweisungsinformationenInklAllfalligeAnhangeMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="460" y="1440" />
+        <di:waypoint x="610" y="1440" />
+        <di:waypoint x="610" y="1495" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="491" y="1390" width="90" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mt5dxt_di" bpmnElement="PostalischesZuweisungsschreibenMessageFlow" bioc:stroke="#1e88e5" color:border-color="#1e88e5">
+        <di:waypoint x="310" y="1410" />
+        <di:waypoint x="310" y="1090" />
+        <di:waypoint x="592" y="1090" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="238" y="1360" width="63" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oy6252_di" bpmnElement="ZuweisungAlsEMailMessageFlow" bioc:stroke="#1e88e5" color:border-color="#1e88e5">
+        <di:waypoint x="410" y="1410" />
+        <di:waypoint x="410" y="1280" />
+        <di:waypoint x="560" y="1280" />
+        <di:waypoint x="560" y="1200" />
+        <di:waypoint x="592" y="1200" />
+        <bpmndi:BPMNLabel color:color="#1e88e5">
+          <dc:Bounds x="343" y="1366" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ap3k3k_di" bpmnElement="ZuweisungsinformationenInklAllfalligeAnhangeMessageFlow1" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="990" y="1360" />
+        <di:waypoint x="990" y="1440" />
+        <di:waypoint x="630" y="1440" />
+        <di:waypoint x="630" y="1495" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="645" y="1390" width="90" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dmi8qs_di" bpmnElement="AufgabeMitInformationenMessageFlow" bioc:stroke="#fb8c00" color:border-color="#fb8c00">
+        <di:waypoint x="730" y="2040" />
+        <di:waypoint x="620" y="2040" />
+        <di:waypoint x="620" y="2482" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="536" y="2116" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05qapz2_di" bpmnElement="AntragsinformationenInklAnhangeMessageFlow" bioc:stroke="#fb8c00" color:border-color="#fb8c00">
+        <di:waypoint x="750" y="2060" />
+        <di:waypoint x="750" y="2220" />
+        <di:waypoint x="770" y="2220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="676" y="2100" width="67" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04stfgu_di" bpmnElement="ErganzendeInformationenMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1080" y="2200" />
+        <di:waypoint x="1080" y="2110" />
+        <di:waypoint x="800" y="2110" />
+        <di:waypoint x="800" y="2060" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1086" y="2116" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qrtbqz_di" bpmnElement="EMailMitAngabeFehlenderInformationenMessageFlow">
+        <di:waypoint x="940" y="2540" />
+        <di:waypoint x="940" y="2640" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="835" y="2592" width="90" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13descb_di" bpmnElement="GeforderteInformationenPerEMailOderBriefMessageFlow">
+        <di:waypoint x="1060" y="2640" />
+        <di:waypoint x="1060" y="2518" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1076" y="2592" width="88" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gng0t0_di" bpmnElement="AblehnungInklBegrundungPerEMailOderBriefMessageFlow">
+        <di:waypoint x="1330" y="2540" />
+        <di:waypoint x="1330" y="2670" />
+        <di:waypoint x="1150" y="2670" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1238" y="2587" width="83" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11kg6td_di" bpmnElement="GenehmigungMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1330" y="2200" />
+        <di:waypoint x="1330" y="2100" />
+        <di:waypoint x="820" y="2100" />
+        <di:waypoint x="820" y="2060" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1335" y="2123" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ztz1x8_di" bpmnElement="AblehnungInklBegrundungMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1440" y="2310" />
+        <di:waypoint x="1440" y="2040" />
+        <di:waypoint x="830" y="2040" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1452" y="2116" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03axqtn_di" bpmnElement="AufgabeMitInformationenMessageFlow1" bioc:stroke="#fb8c00" color:border-color="#fb8c00">
+        <di:waypoint x="1720" y="2040" />
+        <di:waypoint x="1660" y="2040" />
+        <di:waypoint x="1660" y="2482" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1576" y="2116" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sfkq9c_di" bpmnElement="TerminVorgabenMessageFlow" bioc:stroke="#fb8c00" color:border-color="#fb8c00">
+        <di:waypoint x="1730" y="2060" />
+        <di:waypoint x="1730" y="2200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1736" y="2116" width="47" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gjiroe_di" bpmnElement="TerminanfrageZBPerTelefonMessageFlow">
+        <di:waypoint x="1830" y="2540" />
+        <di:waypoint x="1830" y="2640" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1742" y="2596" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_059ew97_di" bpmnElement="TerminbestatigungMessageFlow1">
+        <di:waypoint x="1860" y="2640" />
+        <di:waypoint x="1860" y="2540" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1871" y="2596" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zgbqpl_di" bpmnElement="PatientenUndFalldatenMessageFlow">
+        <di:waypoint x="1080" y="1740" />
+        <di:waypoint x="1080" y="1440" />
+        <di:waypoint x="1300" y="1440" />
+        <di:waypoint x="1300" y="1090" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1096" y="1407" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dzdx6r_di" bpmnElement="VorgesehenerBehandlungszeitraumUndArztinMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1590" y="1090" />
+        <di:waypoint x="1590" y="1740" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1604" y="1384" width="72" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hohtbl_di" bpmnElement="TriageAuftragMessageFlow" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
+        <di:waypoint x="1390" y="1610" />
+        <di:waypoint x="1390" y="1440" />
+        <di:waypoint x="1480" y="1440" />
+        <di:waypoint x="1480" y="1218" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1401" y="1422" width="69" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06pu3sr_di" bpmnElement="StatusErledigtMessageFlow" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1750" y="1360" />
+        <di:waypoint x="1750" y="1630" />
+        <di:waypoint x="1460" y="1630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1760" y="1415" width="39" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bwlojq_di" bpmnElement="StatusErledigtMessageFlow1" bioc:stroke="#e53935" color:border-color="#e53935">
+        <di:waypoint x="1990" y="2200" />
+        <di:waypoint x="1990" y="2100" />
+        <di:waypoint x="1800" y="2100" />
+        <di:waypoint x="1800" y="2060" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2000" y="2116" width="39" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_0e0esly">
+    <bpmndi:BPMNPlane id="BPMNPlane_0tv3oi2" bpmnElement="TriageDurchfuhrenSubProcess" />
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

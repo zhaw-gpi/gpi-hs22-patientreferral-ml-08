@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_146vdc4" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.3.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <decision id="DefineResponsiblePhysician" name="Zuständige Ärzt:in bestimmen">
+    <informationRequirement id="InformationRequirement_115o82c">
+      <requiredInput href="#InputData_1pk5228" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0vhcc5s">
+      <requiredInput href="#InputData_16uuk8x" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1ylj8bb">
+      <requiredInput href="#InputData_16g0hqs" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0qsxfh0">
+      <input id="Input_1" label="Notfall?">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text>case_is_emergency</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_06hhjuf" label="Zuständige Abteilung">
+        <inputExpression id="LiteralExpression_0u6j1ce" typeRef="string">
+          <text>case_department</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_03g0vmk">
+          <text>"Dermatologie","Gastroenterologie","Neurologie"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_1hn80nz" label="Versicherungstyp">
+        <inputExpression id="LiteralExpression_0qiuoz0" typeRef="string">
+          <text>pat_insurance_type</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0oqyzyx">
+          <text>"V1","V2","V3"</text>
+        </inputValues>
+      </input>
+      <output id="Output_1" label="Zuständige Ärzt:in" name="result" typeRef="string" />
+      <rule id="DecisionRule_0nwsvwc">
+        <inputEntry id="UnaryTests_16kyswn">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a7syb4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m5nqpb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10i8o1h">
+          <text>"emer"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09riaab">
+        <inputEntry id="UnaryTests_1wp7jbz">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0izp51x">
+          <text>"Dermatologie","Neurologie"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pjgccc">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0fv3rzh">
+          <text>"dene"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_13dbkbb">
+        <inputEntry id="UnaryTests_1768jjh">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rjidm8">
+          <text>"Gastroenterologie"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m1pc9m">
+          <text>"V1"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0giry2b">
+          <text>"gapr"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1swfq2e">
+        <inputEntry id="UnaryTests_03jb0lg">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fm1p2x">
+          <text>"Gastroenterologie"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_071ojyb">
+          <text>not("V1")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ngeapd">
+          <text>"gaen"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1pk5228" name="Notfall?" />
+  <inputData id="InputData_16uuk8x" name="Zugehörige Abteilung" />
+  <inputData id="InputData_16g0hqs" name="Versicherungstyp" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="DefineResponsiblePhysician">
+        <dc:Bounds height="80" width="180" x="370" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0l6pap3" dmnElementRef="InputData_1pk5228">
+        <dc:Bounds height="45" width="125" x="397" y="337" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_09wa2oz" dmnElementRef="InformationRequirement_115o82c">
+        <di:waypoint x="460" y="337" />
+        <di:waypoint x="460" y="200" />
+        <di:waypoint x="460" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0d6abjl" dmnElementRef="InputData_16uuk8x">
+        <dc:Bounds height="45" width="125" x="637" y="337" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1u2du8f" dmnElementRef="InformationRequirement_0vhcc5s">
+        <di:waypoint x="700" y="337" />
+        <di:waypoint x="505" y="200" />
+        <di:waypoint x="505" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0ejgghb" dmnElementRef="InputData_16g0hqs">
+        <dc:Bounds height="45" width="125" x="157" y="337" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1km8irx" dmnElementRef="InformationRequirement_1ylj8bb">
+        <di:waypoint x="220" y="337" />
+        <di:waypoint x="415" y="200" />
+        <di:waypoint x="415" y="180" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

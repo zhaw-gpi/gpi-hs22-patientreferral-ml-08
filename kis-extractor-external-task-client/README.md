@@ -1,0 +1,1 @@
+In diesem Ordner wird später im Semester der Service erstellt, welcher als External Task Client Informationen aus dem KIS extrahiert zu Handen der Prozessapplikation.

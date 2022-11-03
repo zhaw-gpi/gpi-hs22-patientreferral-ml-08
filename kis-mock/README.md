@@ -1,0 +1,1 @@
+In diesem Ordner wird später im Semester das KIS (Klinikinformationssystem) gemockt.
