@@ -1,4 +1,4 @@
-package ch.zhaw.gpi.referralprocessapplication.kis_mock;
+package ch.zhaw.gpi.kis;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

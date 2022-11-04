@@ -1,11 +1,7 @@
-package ch.zhaw.gpi.referralprocessapplication;
+package ch.zhaw.gpi.kis;
 
-import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Hauptklasse für die Prozessapplikation, welche diese mit allen Abhängigkeiten
@@ -22,8 +18,7 @@ import org.springframework.web.client.RestTemplate;
  * => unter localhost:8080 ist Tomcat erreichbar *
  */
 @SpringBootApplication
-@EnableProcessApplication
-public class ReferralProcessApplication {
+public class KisApplication {
 
     /**
      * Haupt-Methode, welche beim Run-Befehl eine
@@ -32,11 +27,6 @@ public class ReferralProcessApplication {
      * @param args
      */
     public static void main(String[] args) {
-        SpringApplication.run(ReferralProcessApplication.class, args);
-    }
-
-    @Bean(name = "kisRestClient")
-    public RestTemplate getKisRestClient(RestTemplateBuilder restTemplateBuilder){
-        return restTemplateBuilder.build();
+        SpringApplication.run(KisApplication.class, args);
     }
 }

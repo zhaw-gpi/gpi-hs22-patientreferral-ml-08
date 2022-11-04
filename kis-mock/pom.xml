@@ -6,8 +6,8 @@
 
   <!-- Grundangaben zum Maven-Projekt -->  
   <groupId>ch.zhaw.gpi</groupId>  
-  <artifactId>patient-referral-process-application</artifactId>  
-  <name>Patient Referral Process Application</name>  
+  <artifactId>kis-mock</artifactId>  
+  <name>KIS Klinikinformationssystem</name>  
   <version>1.0.0</version>  
 
   <!-- Spring Boot als Parent POM -->
@@ -22,14 +22,7 @@
   <properties> 
     <!-- Nicht bloss ANSI, sondern UTF-8 soll unterstützt sein -->  
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>  
-    <!-- Setzt die (Camunda) Spring Boot-Starter-Version -->  
-    <camunda-bpm-spring-boot-starter.version>7.17.0</camunda-bpm-spring-boot-starter.version>
-    <!-- Steuert, ob die Enterprise-Version von Camunda benutzt wird ("-ee" schreiben)
-             oder die Community-Version (leer lassen). Weitere Bedingungen:
-             1. Eine Datei license.txt mit einem gültigen Key muss im Benutzerverzeichnis/.camunda sein
-             2. Es sind Credentials zum Camunda-EE-Repository erforderlich (siehe ganz unten) -->  
-    <camunda.enable.ee>-ee</camunda.enable.ee>  
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> 
     <!-- True, falls keine Tests erforderlich sind (Beschleunigt/Ermöglicht Start auch bei fehlgeschlagenen Tests) -->  
     <skipTests>false</skipTests> 
     <!-- Legt die genutzte Java-Version fest -->
@@ -38,26 +31,9 @@
   
   <!-- Legt die einzelnen Abhängigkeiten des Maven-Projekts fest -->  
   <dependencies> 
-    <!-- Importiert eine für die Spring Boot-Umgebung konfigurierte Camunda-
-        Umgebung, beinhaltend: Spring-Framework, Tomcat-Server, Camunda Process
-        Engine, Camunda Webapps (Tasklist, Cockpit, Admin), Camunda Spin -->  
     <dependency> 
-      <groupId>org.camunda.bpm.springboot</groupId>  
-      <artifactId>camunda-bpm-spring-boot-starter-webapp${camunda.enable.ee}</artifactId>  
-      <version>${camunda-bpm-spring-boot-starter.version}${camunda.enable.ee}</version> 
-    </dependency>  
-    <!-- Importiert die REST API als weiterer Zugang fürr die Camunda Process Engine -->  
-    <dependency> 
-      <groupId>org.camunda.bpm.springboot</groupId>  
-      <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>  
-      <version>${camunda-bpm-spring-boot-starter.version}</version> 
-    </dependency>  
-    <!-- Importiert die Unterstützung für JUnit-Tests allgemein und Camunda-spezifisch (BPM Assert) -->  
-    <dependency> 
-      <groupId>org.camunda.bpm.springboot</groupId>  
-      <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>  
-      <version>${camunda-bpm-spring-boot-starter.version}</version>  
-      <scope>test</scope> 
+      <groupId>org.springframework.boot</groupId>  
+      <artifactId>spring-boot-starter-web</artifactId>
     </dependency>  
     <!-- Importiert die H2-Datenbank-Abhängigkeit, damit die Camunda Process
         Engine ihre Daten in H2 in-memory ablegen kann -->  
@@ -86,23 +62,14 @@
       <optional>true</optional>
     </dependency>
 
-    <!-- Für Serialisierung und Deserialisierung erforderliche Abhängigkeiten -->
     <dependency>
-      <groupId>org.camunda.spin</groupId>
-      <artifactId>camunda-spin-core</artifactId>
-      <version>1.10.1</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.camunda.spin</groupId>
-      <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
-      <version>1.10.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.camunda.bpm</groupId>
-      <artifactId>camunda-engine-plugin-spin</artifactId>
-      <version>${camunda-bpm-spring-boot-starter.version}</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-rest</artifactId>
     </dependency>
   </dependencies>
 

@@ -1,27 +1,27 @@
 package ch.zhaw.gpi.referralprocessapplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.inject.Named;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import ch.zhaw.gpi.referralprocessapplication.kis_mock.MedicalCase;
-import ch.zhaw.gpi.referralprocessapplication.kis_mock.MedicalCaseRepository;
-import ch.zhaw.gpi.referralprocessapplication.kis_mock.Patient;
-import ch.zhaw.gpi.referralprocessapplication.kis_mock.PatientRepository;
+import camundajar.impl.com.google.gson.JsonObject;
 
 @Named("CreatePatientAndMedicalCaseAdapter")
 public class CreatePatientAndMedicalCaseDelegate implements JavaDelegate {
 
     @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
-    private MedicalCaseRepository medicalCaseRepository;
+    private RestTemplate kisRestClient;
 
     @Override
     public void execute(DelegateExecution de) throws Exception {
@@ -40,49 +40,69 @@ public class CreatePatientAndMedicalCaseDelegate implements JavaDelegate {
         Date caseDesiredDate = (Date) de.getVariable("case_desired_date");
         String caseDepartment = (String) de.getVariable("case_department");
 
+        // Für Datumsumwandlung in String erforderliche Zeile
+        SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Für HTTP-Requests erforderlichen Header zusammenstellen
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
         // Prüfen, ob die Patient:in bereits im KIS erfasst ist anhand
         // Versichertennummer
-        Optional<Patient> patientInDb = patientRepository.findById(patInsuranceNumber);
-        Patient patientFoundOrCreated;
-
-        if (patientInDb.isEmpty()) {
-            // Falls nicht vorhanden: Patient:in neu anlegen
-            Patient patientNew = new Patient();
-            patientNew.setInsuranceNumber(patInsuranceNumber);
-            patientNew.setFirstName(patFirstname);
-            patientNew.setLastName(patLastname);
-            patientNew.setBirthDate(patBirthday);
-            patientNew.setPlz(patPlz);
+        try {
+            kisRestClient.exchange("http://localhost:8090/api/patients/{insuranceNumber}", HttpMethod.GET, null, Void.class, patInsuranceNumber);
+            // Falls ja, betreffend Patient:in nichts zu tun
+        } catch (Exception getException) {
+            // Vereinfachte Annahme, dass jede Exception = 404 Exception ist
+            // Falls also Patient:in nicht in KIS vorhanden ist, Patient:in neu anlegen als JsonObject
+            JsonObject patientNew = new JsonObject();
+            patientNew.addProperty("insuranceNumber", patInsuranceNumber);
+            patientNew.addProperty("firstName", patFirstname);
+            patientNew.addProperty("lastName", patLastname);            
+            patientNew.addProperty("birthDate", yearMonthDayFormat.format((patBirthday == null ? new Date() : patBirthday)));
+            patientNew.addProperty("plz", patPlz);
             switch (patInsuranceType) {
                 case "V1":
-                    patientNew.setInsuranceType("privat");
+                    patientNew.addProperty("insuranceType", "privat");
                     break;
 
                 case "V2":
-                    patientNew.setInsuranceType("halbprivat");
+                patientNew.addProperty("insuranceType", "halbprivat");
                     break;
 
                 case "V3":
-                    patientNew.setInsuranceType("allgemein");
+                patientNew.addProperty("insuranceType", "allgemein");
                     break;
             }
-            patientFoundOrCreated = patientRepository.save(patientNew);
-        } else {
-            patientFoundOrCreated = patientInDb.get();
+
+            // Http Request-Content für das Hinzufügen der Patient:in zusammenbauen
+            HttpEntity<String> requestEntity = new HttpEntity<String>(patientNew.toString(), headers);
+
+            // Http Request für das Hinzufügen der Patient:in ausführen
+            kisRestClient.exchange("http://localhost:8090/api/patients", HttpMethod.POST, requestEntity, Void.class);            
         }
 
-        // Einen neuen Fall anlegen im KIS sowie diesen Fall mit der Patient:in verknüpfen
-        MedicalCase medicalCaseNew = new MedicalCase();
-        medicalCaseNew.setPatient(patientFoundOrCreated);
-        medicalCaseNew.setReferrerId(caseRefId);
-        medicalCaseNew.setReasons(caseRefReasons);
-        medicalCaseNew.setIsEmergency(caseIsEmergency);
-        medicalCaseNew.setDateDesired(caseDesiredDate);
-        medicalCaseNew.setResponsibleDepartment(caseDepartment);
-        MedicalCase medicalCaseCreated = medicalCaseRepository.save(medicalCaseNew);
+        // Einen neuen Fall anlegen als JjsonObject
+        JsonObject medicalCaseNew = new JsonObject();
+        medicalCaseNew.addProperty("reasons", caseRefReasons);
+        medicalCaseNew.addProperty("referrerId", caseRefId);
+        medicalCaseNew.addProperty("isEmergency", caseIsEmergency);
+        medicalCaseNew.addProperty("dateDesired", yearMonthDayFormat.format(caseDesiredDate));
+        medicalCaseNew.addProperty("responsibleDepartment", caseDepartment);
+        medicalCaseNew.addProperty("patient", "http://localhost:8090/api/patients/" + patInsuranceNumber);
+
+        // Http Request-Content für das Hinzufügen des Falls zusammenbauen
+        HttpEntity<String> requestEntity = new HttpEntity<String>(medicalCaseNew.toString(), headers);
+
+        // Http Request für das Hinzufügen des Falls ausführen
+        ResponseEntity<String> response = kisRestClient.exchange("http://localhost:8090/api/medicalCases", HttpMethod.POST, requestEntity, String.class);
+
+        // Fall-ID aus dem Location-Attribut des Response-Headers extrahieren
+        String caseUrl = response.getHeaders().getLocation().toString();
+        String caseId = caseUrl.substring(caseUrl.lastIndexOf("/") + 1, caseUrl.length());
 
         // Die erhaltene Fall-ID in der Prozessvariable case_id persistieren
-        de.setVariable("case_id", medicalCaseCreated.getCaseId());
+        de.setVariable("case_id", Long.valueOf(caseId));
     }
 
 }
