@@ -59,7 +59,7 @@ public class CreatePatientAndMedicalCaseDelegate implements JavaDelegate {
             patientNew.addProperty("insuranceNumber", patInsuranceNumber);
             patientNew.addProperty("firstName", patFirstname);
             patientNew.addProperty("lastName", patLastname);            
-            patientNew.addProperty("birthDate", yearMonthDayFormat.format((patBirthday == null ? new Date() : patBirthday)));
+            patientNew.addProperty("birthDate", yearMonthDayFormat.format(patBirthday));
             patientNew.addProperty("plz", patPlz);
             switch (patInsuranceType) {
                 case "V1":
